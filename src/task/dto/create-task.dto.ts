@@ -1,4 +1,4 @@
-import { IsBoolean, IsString } from "class-validator";
+import { IsBoolean, IsNumber, IsString } from "class-validator";
 import { Task } from "../entities/task.entity";
 
 export class CreateTaskDto extends Task {
@@ -8,6 +8,6 @@ export class CreateTaskDto extends Task {
   @IsBoolean()
   status: boolean;
 
-  @IsString()
+  @IsNumber()
   createdBy: number;
 }

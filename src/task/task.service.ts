@@ -21,11 +21,11 @@ export class TaskService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return `This action returns a #${id} task`;
   }
 
-  async update(id: number, data: UpdateTaskDto) {
+  async update(id: number, data: UpdateTaskDto, createdBy: number) {
     const taskExists = await this.prisma.tasks.findUnique({
       where: {
         id,
@@ -33,6 +33,10 @@ export class TaskService {
     })
 
     if (!taskExists) {
+      throw new Error("task does not exist")
+    }
+
+    if (taskExists.createdBy !== createdBy) {
       throw new Error("task does not exist")
     }
 
@@ -44,7 +48,7 @@ export class TaskService {
     })
   }
 
-  async delete(id: number) {
+  async delete(id: number, createdBy: number) {
     const taskExists = await this.prisma.tasks.findUnique({
       where: {
         id,
@@ -52,6 +56,10 @@ export class TaskService {
     })
 
     if (!taskExists) {
+      throw new Error("task does not exist")
+    }
+
+    if (taskExists.createdBy !== createdBy) {
       throw new Error("task does not exist")
     }
 
